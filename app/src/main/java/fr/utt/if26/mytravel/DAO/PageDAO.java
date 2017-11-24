@@ -40,7 +40,7 @@ public class PageDAO extends DAO implements BaseColumns{
             int id = (int) getDb().getWritableDatabase().insert(getModelName(), null, v);
             return id;
         } catch (Exception e) {
-            Log.i("Ex", e.getMessage());
+            Log.e("===", "insertRow : "+e.getMessage());
             return -1;
         }
 
@@ -50,6 +50,12 @@ public class PageDAO extends DAO implements BaseColumns{
         Page page = (Page) ob;
         String select = "_id LIKE ?";
         String[] args = { page.getId()+"" };
+        getDb().getWritableDatabase().delete(getModelName(), select, args);
+    }
+
+    public void deleteRow(int id_pf) {
+        String select = "_id LIKE ?";
+        String[] args = { id_pf+"" };
         getDb().getWritableDatabase().delete(getModelName(), select, args);
     }
 
@@ -63,7 +69,7 @@ public class PageDAO extends DAO implements BaseColumns{
             if (c != null)
                 c.moveToFirst();
         } catch (Exception e) {
-            Log.i("Ex", e.getMessage());
+            Log.e("===", "getRow : "+e.getMessage());
         }
         return this.itemToObject(c);
     }
@@ -95,25 +101,31 @@ public class PageDAO extends DAO implements BaseColumns{
             String itemContent = c_pf.getString(2);
             String itemSummary = c_pf.getString(3);
             Page page = new Page(itemId, itemTitle, itemContent, itemSummary);
+
             return page;
         } catch(Exception e) {
-            Log.i("Ex", e.getMessage());
+            Log.e("===", "ItemToObject : "+ e.getMessage());
             return null;
         }
     }
 
     public void updateRow(int id, Object ob) {
         Page page = (Page) ob;
-        // Méthode à l'ancienne, faute d'avoir reussi à faire fonctionner l'autre ^^
-        String sql = "UPDATE " + Bdd.FeedPage.MODEL_NAME + " SET " +
-                Bdd.FeedPage.TITLE + "='" + page.getTitle() + "', " +
-                Bdd.FeedPage.CONTENT + "='" + page.getContent() + "', " +
-                Bdd.FeedPage.SUMMARY + "='" + page.getSummary() + "' " +
-                "WHERE _id = " + id;
+        String filter = "_id=" + id;
+        ContentValues args = new ContentValues();
+        args.put(Bdd.FeedPage.TITLE, page.getTitle());
+        args.put(Bdd.FeedPage.CONTENT, page.getContent());
+        args.put(Bdd.FeedPage.SUMMARY, page.getSummary());
+        Log.e("===", "4. "+page);
         try {
-            getDb().getDatabase().execSQL(sql);
+            getDb().getWritableDatabase().update(Bdd.FeedPage.MODEL_NAME, args, filter, null);
+            Log.i("===", id+"");
+            //Log.i("==updateR", getRow(id).toString());
+            Log.i("==updateR", args.toString());
+            // getDb().getWritableDatabase().execSQL(sql);
+
         } catch (Exception e) {
-            Log.i("====", e.getMessage());
+            Log.e("====", "updateRow : "+e.getMessage());
         }
     }
 

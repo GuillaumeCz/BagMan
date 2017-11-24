@@ -26,7 +26,6 @@ public class Bdd extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         database = db;
-        Log.i("===", "Databse have been Created");
         createCompleteTables();
     }
 
