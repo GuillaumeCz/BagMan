@@ -26,7 +26,7 @@ public class Bdd extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         database = db;
-        Log.i("===", "Databse have been Created");
+        Log.i("===", "Database has been Created");
         createCompleteTables();
     }
 
@@ -52,7 +52,7 @@ public class Bdd extends SQLiteOpenHelper {
     public void createPageTable() {
         try {
             database.execSQL(FeedPage.SQL_CREATE_PAGES);
-            Log.i("==", FeedPage.MODEL_NAME + " is created");
+            Log.i("==", "Column " + FeedPage.MODEL_NAME + " is created");
         } catch(Exception ex) {
             Log.i("===", ex.getMessage());
         }

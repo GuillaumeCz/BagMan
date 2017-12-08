@@ -114,6 +114,7 @@ public class PageDAO extends DAO implements BaseColumns{
         String sortOrder = projections[0] + " DESC";
         Cursor c = getDb().getReadableDatabase().query(
                 getModelName(),
+                //null,
                 projections, //Nullable pour avoir toutes les colonnes
                 null,
                 null,
@@ -153,8 +154,7 @@ public class PageDAO extends DAO implements BaseColumns{
         args.put(Bdd.FeedPage.TITLE, page.getTitle());
         args.put(Bdd.FeedPage.CONTENT, page.getContent());
         args.put(Bdd.FeedPage.SUMMARY, page.getSummary());
-        args.put(Bdd.FeedPage.UPDATED_AT, page.getUpdatedAt());
-        args.put(Bdd.FeedPage.CARNET, page.getCarnet_id());
+        args.put(Bdd.FeedPage.UPDATED_AT, System.currentTimeMillis());
 
         try {
             getDb().getWritableDatabase().update(Bdd.FeedPage.MODEL_NAME, args, filter, null);
@@ -162,5 +162,4 @@ public class PageDAO extends DAO implements BaseColumns{
             Log.i("====", e.getMessage());
         }
     }
-
 }
