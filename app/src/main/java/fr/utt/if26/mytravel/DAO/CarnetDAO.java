@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import fr.utt.if26.mytravel.Config.Bdd;
 import fr.utt.if26.mytravel.Model.Carnet;
+import fr.utt.if26.mytravel.Model.Page;
 
 /**
  * Created by sabri on 30/11/2017.
@@ -50,7 +51,7 @@ public class CarnetDAO extends DAO {
         v.put(Bdd.FeedCarnet.NAME, carnet.getName());
         v.put(Bdd.FeedCarnet.CREATED_AT, carnet.getCreatedAt());
         v.put(Bdd.FeedCarnet.UPDATED_AT, carnet.getUpdatedAt());
-
+        v.put(Bdd.FeedCarnet.PAGES, carnet.getPages());
         try {
             int id = (int) getDb().getWritableDatabase().insert(getModelName(), null, v);
             return id;
@@ -75,6 +76,10 @@ public class CarnetDAO extends DAO {
 
     }
 
+    public void addPageRow(int id_page) {
+
+    }
+
     @Override
     public Carnet itemToObject(Cursor c_pf) {
         try {
@@ -85,6 +90,22 @@ public class CarnetDAO extends DAO {
             Carnet carnet = new Carnet(itemId, itemName, itemCreatedAt,
                     itemUpdatedAt);
             return carnet;
+        } catch(Exception e) {
+            Log.i("Ex", e.getMessage());
+            return null;
+        }
+    }
+
+    private Page itemToPage(Cursor c_pf) {
+        try {
+            int itemId = c_pf.getInt(0);
+            String itemTitle = c_pf.getString(1);
+            String itemContent = c_pf.getString(2);
+            String itemSummary = c_pf.getString(3);
+            long itemCreatedAt = c_pf.getLong(4);
+            long itemUpdatedAt = c_pf.getLong(5);
+            Page page = new Page(itemId, itemTitle, itemContent, itemSummary, itemCreatedAt, itemUpdatedAt);
+            return page;
         } catch(Exception e) {
             Log.i("Ex", e.getMessage());
             return null;

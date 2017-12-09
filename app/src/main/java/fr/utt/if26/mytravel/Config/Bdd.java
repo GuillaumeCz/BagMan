@@ -129,12 +129,15 @@ public class Bdd extends SQLiteOpenHelper {
         public static final String NAME = "name";
         public static final String CREATED_AT = "created_at";
         public static final String UPDATED_AT = "updated_at";
+        public static final String PAGES = "pages";
         public static final String SQL_CREATE_CARNET =
                 "CREATE TABLE " + MODEL_NAME + " (" +
                         _ID + " INTEGER PRIMARY KEY," +
                         NAME + " TEXT," +
                         CREATED_AT + " INTEGER," +
-                        UPDATED_AT + " INTEGER)";
+                        UPDATED_AT + " INTEGER," +
+                        PAGES + " INTEGER, " +
+                        "FOREIGN KEY (" + PAGES + ") REFERENCES " + FeedPage.MODEL_NAME + "(" + FeedPage._ID + "))";
         public static final String SQL_DELETE_CARNET = "DROP TABLE IF EXISTS " + MODEL_NAME;
 
     }
