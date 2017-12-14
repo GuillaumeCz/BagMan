@@ -107,6 +107,7 @@ public class Bdd extends SQLiteOpenHelper {
         public static final String SUMMARY = "summary";
         public static final String CREATED_AT = "created_at";
         public static final String UPDATED_AT = "updated_at";
+        public static final String CARNET = "carnet_id";
         public static final String SQL_CREATE_PAGES =
             "CREATE TABLE " + MODEL_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY," +
@@ -114,7 +115,10 @@ public class Bdd extends SQLiteOpenHelper {
                 CONTENT + " TEXT," +
                 SUMMARY + " TEXT," +
                 CREATED_AT + " INTEGER," +
-                UPDATED_AT + " INTEGER)";
+                UPDATED_AT + " INTEGER," +
+                CARNET + " INTEGER," +
+                "FOREIGN KEY(" + CARNET + ") REFERENCES " + FeedCarnet.MODEL_NAME + "(" + FeedCarnet._ID +")" +
+                ");";
         public static final String SQL_DELETE_PAGES = "DROP TABLE IF EXISTS " + MODEL_NAME;
     }
 

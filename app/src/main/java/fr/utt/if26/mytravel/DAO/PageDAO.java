@@ -45,7 +45,25 @@ public class PageDAO extends DAO implements BaseColumns{
             Log.i("Ex", e.getMessage());
             return -1;
         }
+    }
 
+    public int insertRowWithCarnet(Object ob, int carnet_id) {
+        Page page = (Page) ob;
+        ContentValues v = new ContentValues();
+        v.put(Bdd.FeedPage.TITLE, page.getTitle());
+        v.put(Bdd.FeedPage.CONTENT, page.getContent());
+        v.put(Bdd.FeedPage.SUMMARY, page.getSummary());
+        v.put(Bdd.FeedPage.CREATED_AT, page.getCreatedAt());
+        v.put(Bdd.FeedPage.UPDATED_AT, page.getUpdatedAt());
+        v.put(Bdd.FeedPage.CARNET, carnet_id);
+
+        try {
+            int id = (int) getDb().getWritableDatabase().insert(getModelName(), null, v);
+            return id;
+        } catch (Exception e) {
+            Log.i("Ex", e.getMessage());
+            return -1;
+        }
     }
 
     public void deleteRow(int id_pf) {
@@ -67,6 +85,29 @@ public class PageDAO extends DAO implements BaseColumns{
             Log.i("Ex", e.getMessage());
         }
         return this.itemToObject(c);
+    }
+
+    public ArrayList<Page> getRowByCarnet(int id_carnet) {
+        String[] projections = {"_id", "title", "content", "summary", "created_at", "updated_at"};
+        String sortOrder = projections[0] + " DESC";
+        String whereClause = Bdd.FeedPage.CARNET + "?";
+        String[] whereArg = { id_carnet+"" };
+
+        Cursor c = getDb().getReadableDatabase().query(
+                getModelName(),
+                projections,
+                whereClause,
+                whereArg,
+                null,
+                null,
+                sortOrder
+        );
+
+        ArrayList<Page> items = new ArrayList();
+        while (c.moveToNext()) {
+            items.add(this.itemToObject(c));
+        }
+        return items;
     }
 
     public ArrayList getList() {
