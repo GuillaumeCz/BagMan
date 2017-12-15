@@ -2,7 +2,7 @@ package fr.utt.if26.mytravel.DAO;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
@@ -39,7 +39,7 @@ public class PageDAO extends DAO implements BaseColumns{
         v.put(Bdd.FeedPage.UPDATED_AT, page.getUpdatedAt());
 
         try {
-            int id = (int) getDb().getWritableDatabase().insert(getModelName(), null, v);
+            int id = (int) getDb().getWritableDatabase("test123").insert(getModelName(), null, v);
             return id;
         } catch (Exception e) {
             Log.i("Ex", e.getMessage());
@@ -51,12 +51,12 @@ public class PageDAO extends DAO implements BaseColumns{
     public void deleteRow(int id_pf) {
         String select = "_id LIKE ?";
         String[] args = { id_pf+"" };
-        getDb().getWritableDatabase().delete(getModelName(), select, args);
+        getDb().getWritableDatabase("test123").delete(getModelName(), select, args);
     }
 
     public Page getRow(int id) {
         String sql = "SELECT * FROM page WHERE _id =? ";
-        SQLiteDatabase db = getDb().getReadableDatabase();
+        SQLiteDatabase db = getDb().getReadableDatabase("test123");
         Cursor c = null;
 
         try {
@@ -72,7 +72,7 @@ public class PageDAO extends DAO implements BaseColumns{
     public ArrayList getList() {
         String[] projections = {"_id", "title", "content", "summary", "created_at", "updated_at"};
         String sortOrder = projections[0] + " DESC";
-        Cursor c = getDb().getReadableDatabase().query(
+        Cursor c = getDb().getReadableDatabase("test123").query(
                 getModelName(),
                 projections, //Nullable pour avoir toutes les colonnes
                 null,
@@ -115,7 +115,7 @@ public class PageDAO extends DAO implements BaseColumns{
         args.put(Bdd.FeedPage.UPDATED_AT, page.getUpdatedAt());
 
         try {
-            getDb().getWritableDatabase().update(Bdd.FeedPage.MODEL_NAME, args, filter, null);
+            getDb().getWritableDatabase("test123").update(Bdd.FeedPage.MODEL_NAME, args, filter, null);
         } catch (Exception e) {
             Log.i("====", e.getMessage());
         }

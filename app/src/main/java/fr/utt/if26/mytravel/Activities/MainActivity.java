@@ -1,12 +1,14 @@
 package fr.utt.if26.mytravel.Activities;
 
 import android.content.Intent;
+import net.sqlcipher.database.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -60,15 +62,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if(first_run) {
-            deleteDatabase(Bdd.DATABASE_NAME);
+
             // Création d'objets Page
             Page t = new Page("TitleTest", "ContentTest","SummaryTest");
             Page t2 = new Page("Title2", "ContentTest2","SummaryTest2");
             Page t3 = new Page("Title3", "ContentTest3","Summary3");
 
             // INSERTION d'une page dans la table Page
-            // Idée de récupéré l'id que lui a attribué la base de données pour completer l'objet Page
-            // precedemment construit
+            // Idée de récupérer l'id que lui a attribué la base de données pour completer l'objet Page
+            // precedemment construite
             t.setId(pdao.insertRow(t));
             t2.setId(pdao.insertRow(t2));
             t3.setId(pdao.insertRow(t3));
@@ -109,4 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         database.close();
         super.onDestroy();
     }
+
+
 }

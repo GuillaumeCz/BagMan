@@ -1,10 +1,11 @@
 package fr.utt.if26.mytravel.Config;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
+
 
 /**
  * AJOUTER gestion des exceptions pour création / suppression de tables !
@@ -16,6 +17,14 @@ public class Bdd extends SQLiteOpenHelper {
 
     public Bdd(Context ct ) {
         super(ct, DATABASE_NAME, null, DATABASE_VERSION );
+        SQLiteDatabase.loadLibs(ct);
+        if (ct.getDatabasePath(DATABASE_NAME).exists()) {
+            Log.e("===", "exists");
+        } else {
+            Log.e("===", "not exists");
+        }
+        SQLiteDatabase.openOrCreateDatabase(ct.getDatabasePath(DATABASE_NAME), "test123", null);
+        Log.i("===", "The database has been created");
     }
 
     /**
@@ -26,22 +35,26 @@ public class Bdd extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         database = db;
-        Log.i("===", "Databse have been Created");
-        createCompleteTables();
+        Log.e("===", "Ici");
+        try{
+            createCompleteTables();
+        } catch(Exception e) {
+            Log.e("===e", e.getMessage());
+        }
+
+        Log.e("===", "The database has been Created");
     }
 
     /**
      * Méthode aggregatrice de la création de l'ensemble des tables
      * Idée qu'on peut tout faire en one-shot au lieu de faire x appels dans le onCreate(db)
      */
-    public void createCompleteTables() {
-        // Try - Catch pour choper les erreurs lors de la création des tables
+    private void createCompleteTables() throws Exception {
         try {
             createPageTable();
             createCarnetTable();
         } catch (Exception ex){
-            // Essayer de préciser quel Table pose problème
-            Log.e("===", "Probleme dans la création des tables");
+            throw new Exception("Probleme dans creation des tables : "+ ex.getMessage());
         }
     }
 
@@ -49,51 +62,39 @@ public class Bdd extends SQLiteOpenHelper {
     /**
      * Méthode de création de la table Page
      */
-    public void createPageTable() {
+    private void createPageTable() throws Exception {
         try {
             database.execSQL(FeedPage.SQL_CREATE_PAGES);
             Log.i("==", FeedPage.MODEL_NAME + " is created");
-        } catch(Exception ex) {
-            Log.i("===", ex.getMessage());
+        } catch(Exception e) {
+            throw new Exception("Page : "+e.getMessage());
         }
     }
 
-    public void createCarnetTable() {
-        try {
-            database.execSQL(FeedCarnet.SQL_CREATE_CARNET);
-            Log.i("==", FeedCarnet.MODEL_NAME + " is created");
-        } catch(Exception ex) {
-            Log.i("===", ex.getMessage());
-        }
+    private void createCarnetTable() throws Exception {
+        database.execSQL(FeedCarnet.SQL_CREATE_CARNET);
+        Log.i("==", FeedCarnet.MODEL_NAME + " is created");
     }
 
     /**
      * Suppresion de l'ensemble des tables de la bdd
      * Methode qui appelle les méthodes de suppression de chaque tables
      */
-    public void deleteTables() {
+    private void deleteTables() throws Exception {
         deletePageTable();
     }
 
     /**
      * Méthode de suppression de la table Page
      */
-    public void deletePageTable() {
-        try {
-            database.execSQL(FeedPage.SQL_DELETE_PAGES);
-            Log.i("==", FeedPage.MODEL_NAME + " has been deleted");
-        } catch(Exception ex) {
-            Log.i("===", "Prob de suppression");
-        }
+    private void deletePageTable() throws Exception {
+        database.execSQL(FeedPage.SQL_DELETE_PAGES);
+        Log.i("==", FeedPage.MODEL_NAME + " has been deleted");
     }
 
-    public void deleteCarnetTable() {
-        try {
-            database.execSQL(FeedCarnet.SQL_DELETE_CARNET);
-            Log.i("==", FeedCarnet.MODEL_NAME + " has been deleted");
-        } catch(Exception ex) {
-            Log.i("===", "Prob de suppression");
-        }
+    public void deleteCarnetTable() throws Exception {
+        database.execSQL(FeedCarnet.SQL_DELETE_CARNET);
+        Log.i("==", FeedCarnet.MODEL_NAME + " has been deleted");
     }
 
     /**
@@ -152,8 +153,12 @@ public class Bdd extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         Log.i("===", "Upgrade");
         DATABASE_VERSION = i1;
-        deleteTables();
-        createPageTable();
+        try {
+            deleteTables();
+            createPageTable();
+        } catch (Exception e) {
+            Log.e("ex===", e.getMessage());
+        }
     }
 
     public SQLiteDatabase getDatabase() {
