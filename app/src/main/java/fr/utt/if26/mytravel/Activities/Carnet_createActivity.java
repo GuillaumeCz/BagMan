@@ -1,7 +1,6 @@
 package fr.utt.if26.mytravel.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +16,6 @@ public class Carnet_createActivity extends MenuHeader {
     private Bdd database;
     private CarnetDAO cdao;
     private EditText layout_name;
-    private Button layout_saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +25,7 @@ public class Carnet_createActivity extends MenuHeader {
         cdao = new CarnetDAO(database);
 
         layout_name = (EditText) findViewById(R.id.carnet_name);
-        layout_saveButton = (Button) findViewById(R.id.carnet_saveButton);
+        Button layout_saveButton = (Button) findViewById(R.id.carnet_saveButton);
 
         layout_saveButton.setOnClickListener(save_action);
     }

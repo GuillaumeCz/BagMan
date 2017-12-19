@@ -22,8 +22,6 @@ public class Page_itemActivity extends MenuHeader {
     private EditText layout_title;
     private EditText layout_summary;
     private EditText layout_content;
-    private Button layout_deleteButton;
-    private Button layout_updateButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +37,8 @@ public class Page_itemActivity extends MenuHeader {
         layout_title = (EditText) findViewById(R.id.page_itemTitle);
         layout_summary = (EditText) findViewById(R.id.page_itemSummary);
         layout_content = (EditText) findViewById(R.id.page_itemContent);
-        layout_deleteButton = (Button) findViewById(R.id.page_deleteButton);
-        layout_updateButton = (Button) findViewById(R.id.page_updateButton);
+        Button layout_deleteButton = (Button) findViewById(R.id.page_deleteButton);
+        Button layout_updateButton = (Button) findViewById(R.id.page_updateButton);
 
         layout_title.setText(page.getTitle());
         layout_summary.setText(page.getSummary());
@@ -79,7 +77,7 @@ public class Page_itemActivity extends MenuHeader {
     }
 
     private AlertDialog AskOption(final String pageTitle) {
-        AlertDialog myQuitDialBox = new AlertDialog.Builder(this)
+        return new AlertDialog.Builder(this)
                 .setTitle("Attention !")
                 .setMessage("Voulez-vous vraiment supprimer la page "+pageTitle+" ?")
                 .setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
@@ -99,7 +97,5 @@ public class Page_itemActivity extends MenuHeader {
                         dialogInterface.dismiss();
                     }
                 }).create();
-
-        return myQuitDialBox;
     }
 }

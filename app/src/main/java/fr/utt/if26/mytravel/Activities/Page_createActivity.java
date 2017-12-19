@@ -18,7 +18,6 @@ public class Page_createActivity extends MenuHeader {
     private EditText layout_title;
     private EditText layout_summary;
     private EditText layout_content;
-    private Button layout_saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,7 @@ public class Page_createActivity extends MenuHeader {
         layout_title = (EditText) findViewById(R.id.page_title);
         layout_summary = (EditText) findViewById(R.id.page_summary);
         layout_content = (EditText) findViewById(R.id.page_content);
-        layout_saveButton = (Button) findViewById(R.id.page_saveButton);
+        Button layout_saveButton = (Button) findViewById(R.id.page_saveButton);
 
         layout_saveButton.setOnClickListener(save_action);
     }

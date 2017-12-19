@@ -15,7 +15,6 @@ import fr.utt.if26.mytravel.R;
 
 public class Carnet_listActivity extends MenuHeader {
     private Bdd database;
-    private CarnetDAO cdao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +22,7 @@ public class Carnet_listActivity extends MenuHeader {
         setContentView(R.layout.activity_carnet_list);
 
         database = new Bdd(this);
-        cdao = new CarnetDAO(database);
+        CarnetDAO cdao = new CarnetDAO(database);
 
         CarnetAdapter ca = new CarnetAdapter(this, R.layout.row_item, cdao.getList());
 

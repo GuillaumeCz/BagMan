@@ -16,7 +16,6 @@ import fr.utt.if26.mytravel.R;
 
 public class Page_listActivity extends MenuHeader {
     private Bdd database;
-    private PageDAO pdao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,7 @@ public class Page_listActivity extends MenuHeader {
         setContentView(R.layout.activity_page_list);
 
         database = new Bdd(this);
-        pdao = new PageDAO(database);
+        PageDAO pdao = new PageDAO(database);
 
         PageAdapter pa = new PageAdapter(this, R.layout.row_item, pdao.getList());
 
