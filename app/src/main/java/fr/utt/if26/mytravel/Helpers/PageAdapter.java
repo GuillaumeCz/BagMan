@@ -57,9 +57,7 @@ public class PageAdapter extends ArrayAdapter<Page> implements View.OnClickListe
             }
 
             if ( updatedAt_tv != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-                String date = sdf.format(new Date(page.getUpdatedAt()));
-                updatedAt_tv.setText(date);
+                updatedAt_tv.setText(page.getUpdatedAtFormat());
             }
         }
         return v;

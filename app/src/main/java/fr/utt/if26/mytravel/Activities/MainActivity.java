@@ -18,19 +18,9 @@ import fr.utt.if26.mytravel.Model.Page;
 
 import fr.utt.if26.mytravel.R;
 
-public class MainActivity extends MenuHeader implements View.OnClickListener {
+public class MainActivity extends MenuHeader {
     private boolean first_run = true;
     private Bdd database;
-
-    public void display(ArrayList ps) {
-        Iterator<Carnet> it = ps.iterator();
-        String sb = "";
-        while(it.hasNext()) {
-            Carnet c = it.next();
-            sb = sb + " " + c.toString() + "\n";
-        }
-        Log.e("====", sb);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +50,9 @@ public class MainActivity extends MenuHeader implements View.OnClickListener {
         }
 
         Button page_listButton = (Button)findViewById(R.id.page_listButton);
-        page_listButton.setOnClickListener(this);
+        Button carnet_listButton = (Button)findViewById(R.id.carnet_listButton);
+        page_listButton.setOnClickListener(page_list);
+        carnet_listButton.setOnClickListener(carnet_list);
 
         CarnetDAO cdao = new CarnetDAO(database);
 
@@ -77,21 +69,27 @@ public class MainActivity extends MenuHeader implements View.OnClickListener {
 
         cdao.addPage(c, t2);
         cdao.addPage(c2, t3);
-
-
-        ArrayList<String> aa = cdao.getList();
-        display(aa);
-
-        Log.e("=====", c.toStringWithPages());
-
     }
 
-    @Override
-    public void onClick(View v) {
-        Class page_listActivityClass =Page_listActivity.class;
-        Intent page_listIntent = new Intent(MainActivity.this, page_listActivityClass);
-        startActivity(page_listIntent);
-    }
+    private View.OnClickListener page_list = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Class page_listActivityClass =Page_listActivity.class;
+            Intent page_listIntent = new Intent(MainActivity.this, page_listActivityClass);
+            startActivity(page_listIntent);
+        }
+    };
+
+    private View.OnClickListener carnet_list = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Class carnet_listActivityClass =Carnet_listActivity.class;
+            Intent carnet_listIntent = new Intent(MainActivity.this, carnet_listActivityClass);
+            startActivity(carnet_listIntent);
+        }
+    };
+
+
 
     @Override
     public void onDestroy() {
