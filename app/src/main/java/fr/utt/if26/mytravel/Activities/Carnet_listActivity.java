@@ -1,7 +1,6 @@
 package fr.utt.if26.mytravel.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,10 +10,10 @@ import android.widget.ListView;
 import fr.utt.if26.mytravel.Config.Bdd;
 import fr.utt.if26.mytravel.DAO.CarnetDAO;
 import fr.utt.if26.mytravel.Helpers.CarnetAdapter;
-import fr.utt.if26.mytravel.Model.Carnet;
+import fr.utt.if26.mytravel.Helpers.MenuHeader;
 import fr.utt.if26.mytravel.R;
 
-public class Carnet_listActivity extends AppCompatActivity {
+public class Carnet_listActivity extends MenuHeader {
     private Bdd database;
     private CarnetDAO cdao;
 
@@ -37,14 +36,10 @@ public class Carnet_listActivity extends AppCompatActivity {
     }
 
     private View.OnClickListener create_carnet = new View.OnClickListener() {
-        /**
-         * TODO: completer dés que Create_carnetAct existe
-         * @param view
-         */
         @Override
         public void onClick(View view) {
-            //Intent carnet_createIntent = new Intent(Carnet_listActivity.this, Carnet_createActivity.class);
-            //startActivity(carnet_createIntent);
+            Intent carnet_createIntent = new Intent(Carnet_listActivity.this, Carnet_createActivity.class);
+            startActivity(carnet_createIntent);
         }
     };
 

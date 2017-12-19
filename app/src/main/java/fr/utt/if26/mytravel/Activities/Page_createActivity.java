@@ -32,10 +32,10 @@ public class Page_createActivity extends MenuHeader {
         layout_content = (EditText) findViewById(R.id.page_content);
         layout_saveButton = (Button) findViewById(R.id.page_saveButton);
 
-        layout_saveButton.setOnClickListener(new Page_createActivity.Page_action_save());
+        layout_saveButton.setOnClickListener(save_action);
     }
 
-    private class Page_action_save implements View.OnClickListener {
+    private View.OnClickListener save_action = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             String title = layout_title.getText().toString();
@@ -47,7 +47,7 @@ public class Page_createActivity extends MenuHeader {
             Intent page_listeIntent = new Intent(Page_createActivity.this, Page_listActivity.class);
             startActivity(page_listeIntent);
         }
-    }
+    };
 
     @Override
     public void onDestroy() {
