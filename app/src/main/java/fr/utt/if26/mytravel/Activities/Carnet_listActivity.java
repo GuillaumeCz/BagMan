@@ -11,6 +11,7 @@ import fr.utt.if26.mytravel.Config.Bdd;
 import fr.utt.if26.mytravel.DAO.CarnetDAO;
 import fr.utt.if26.mytravel.Helpers.CarnetAdapter;
 import fr.utt.if26.mytravel.Helpers.MenuHeader;
+import fr.utt.if26.mytravel.Model.Carnet;
 import fr.utt.if26.mytravel.R;
 
 public class Carnet_listActivity extends MenuHeader {
@@ -43,22 +44,14 @@ public class Carnet_listActivity extends MenuHeader {
     };
 
     private AdapterView.OnItemClickListener item_action = new AdapterView.OnItemClickListener() {
-        /**
-         * TODO:Adapter ça apr_s que itemList pour carnet créé
-         * @param adapterView
-         * @param view
-         * @param i
-         * @param l
-         */
         @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            /*final Carnet carnet = (Carnet) adapterView.getItemIdAtPosition(i);
-            Intent carnet_itemIntent = new Intent(Carnet_listActivity.this, Carnet_itemActivity.class);
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            final Carnet carnet = (Carnet) parent.getItemAtPosition(position);
+            Intent page_listIntent = new Intent(Carnet_listActivity.this, Page_listActivity.class);
             Bundle extras = new Bundle();
-
-            extras.putInt("id", carnet.getId());
-            carnet_itemIntent.putExtras(extras);
-            startActivity(carnet_itemIntent);*/
+            extras.putInt("carnet_id", carnet.getId());
+            page_listIntent.putExtras(extras);
+            startActivity(page_listIntent);
         }
     };
 

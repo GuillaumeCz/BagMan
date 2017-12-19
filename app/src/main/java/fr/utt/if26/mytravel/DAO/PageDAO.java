@@ -37,25 +37,7 @@ public class PageDAO extends DAO implements BaseColumns{
         v.put(Bdd.FeedPage.SUMMARY, page.getSummary());
         v.put(Bdd.FeedPage.CREATED_AT, page.getCreatedAt());
         v.put(Bdd.FeedPage.UPDATED_AT, page.getUpdatedAt());
-
-        try {
-            int id = (int) getDb().getWritableDatabase().insert(getModelName(), null, v);
-            return id;
-        } catch (Exception e) {
-            Log.i("Ex", e.getMessage());
-            return -1;
-        }
-    }
-
-    public int insertRowWithCarnet(Object ob, int carnet_id) {
-        Page page = (Page) ob;
-        ContentValues v = new ContentValues();
-        v.put(Bdd.FeedPage.TITLE, page.getTitle());
-        v.put(Bdd.FeedPage.CONTENT, page.getContent());
-        v.put(Bdd.FeedPage.SUMMARY, page.getSummary());
-        v.put(Bdd.FeedPage.CREATED_AT, page.getCreatedAt());
-        v.put(Bdd.FeedPage.UPDATED_AT, page.getUpdatedAt());
-        v.put(Bdd.FeedPage.CARNET, carnet_id);
+        v.put(Bdd.FeedPage.CARNET, page.getCarnet_id());
 
         try {
             int id = (int) getDb().getWritableDatabase().insert(getModelName(), null, v);
@@ -72,6 +54,11 @@ public class PageDAO extends DAO implements BaseColumns{
         getDb().getWritableDatabase().delete(getModelName(), select, args);
     }
 
+    /**
+     * TODO: modifier pour faire comme la fonciton getRowByCarnet
+     * @param id id recherché
+     * @return
+     */
     public Page getRow(int id) {
         String sql = "SELECT * FROM page WHERE _id =? ";
         SQLiteDatabase db = getDb().getReadableDatabase();
@@ -88,9 +75,15 @@ public class PageDAO extends DAO implements BaseColumns{
     }
 
     public ArrayList<Page> getRowByCarnet(int id_carnet) {
-        String[] projections = {"_id", "title", "content", "summary", "created_at", "updated_at"};
+        String[] projections = { Bdd.FeedPage._ID,
+                Bdd.FeedPage.TITLE,
+                Bdd.FeedPage.CONTENT,
+                Bdd.FeedPage.SUMMARY,
+                Bdd.FeedPage.CREATED_AT,
+                Bdd.FeedPage.UPDATED_AT,
+                Bdd.FeedPage.CARNET };
         String sortOrder = projections[0] + " DESC";
-        String whereClause = Bdd.FeedPage.CARNET + "?";
+        String whereClause = Bdd.FeedPage.CARNET + " = ?";
         String[] whereArg = { id_carnet+"" };
 
         Cursor c = getDb().getReadableDatabase().query(
@@ -111,7 +104,13 @@ public class PageDAO extends DAO implements BaseColumns{
     }
 
     public ArrayList getList() {
-        String[] projections = {"_id", "title", "content", "summary", "created_at", "updated_at"};
+        String[] projections = { Bdd.FeedPage._ID,
+                Bdd.FeedPage.TITLE,
+                Bdd.FeedPage.CONTENT,
+                Bdd.FeedPage.SUMMARY,
+                Bdd.FeedPage.CREATED_AT,
+                Bdd.FeedPage.UPDATED_AT,
+                Bdd.FeedPage.CARNET };
         String sortOrder = projections[0] + " DESC";
         Cursor c = getDb().getReadableDatabase().query(
                 getModelName(),
@@ -138,7 +137,8 @@ public class PageDAO extends DAO implements BaseColumns{
             String itemSummary = c_pf.getString(3);
             long itemCreatedAt = c_pf.getLong(4);
             long itemUpdatedAt = c_pf.getLong(5);
-            Page page = new Page(itemId, itemTitle, itemContent, itemSummary, itemCreatedAt, itemUpdatedAt);
+            int carnet_id = c_pf.getInt(6);
+            Page page = new Page(itemId, itemTitle, itemContent, itemSummary, itemCreatedAt, itemUpdatedAt, carnet_id);
             return page;
         } catch(Exception e) {
             Log.i("Ex", e.getMessage());
@@ -154,6 +154,7 @@ public class PageDAO extends DAO implements BaseColumns{
         args.put(Bdd.FeedPage.CONTENT, page.getContent());
         args.put(Bdd.FeedPage.SUMMARY, page.getSummary());
         args.put(Bdd.FeedPage.UPDATED_AT, page.getUpdatedAt());
+        args.put(Bdd.FeedPage.CARNET, page.getCarnet_id());
 
         try {
             getDb().getWritableDatabase().update(Bdd.FeedPage.MODEL_NAME, args, filter, null);

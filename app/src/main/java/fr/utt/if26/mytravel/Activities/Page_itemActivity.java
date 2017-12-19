@@ -22,6 +22,7 @@ public class Page_itemActivity extends MenuHeader {
     private EditText layout_title;
     private EditText layout_summary;
     private EditText layout_content;
+    private Page page;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class Page_itemActivity extends MenuHeader {
 
         Bundle extras = getIntent().getExtras();
         id = extras.getInt("id");
-        Page page = pdao.getRow(id);
+        page = pdao.getRow(id);
 
         layout_title = (EditText) findViewById(R.id.page_itemTitle);
         layout_summary = (EditText) findViewById(R.id.page_itemSummary);
@@ -54,9 +55,9 @@ public class Page_itemActivity extends MenuHeader {
             String title = layout_title.getText().toString();
             String summary = layout_summary.getText().toString();
             String content = layout_content.getText().toString();
-            Page page = new Page(title, content, summary);
+            Page new_page = new Page(title, content, summary, page.getCarnet_id());
 
-            pdao.updateRow(id, page);
+            pdao.updateRow(id, new_page);
             Intent page_listeIntent = new Intent(Page_itemActivity.this, Page_listActivity.class);
             startActivity(page_listeIntent);
         }
@@ -86,6 +87,9 @@ public class Page_itemActivity extends MenuHeader {
                         pdao.deleteRow(id);
                         dialogInterface.dismiss();
                         Intent page_listIntent = new Intent(Page_itemActivity.this, Page_listActivity.class);
+                        Bundle extras = new Bundle();
+                        extras.putInt("carnet_id", page.getCarnet_id());
+                        page_listIntent.putExtras(extras);
                         startActivity(page_listIntent);
                         Toast deleteToast = Toast.makeText(getApplicationContext(), "La page " + pageTitle + " a été supprimée", Toast.LENGTH_SHORT);
                         deleteToast.show();

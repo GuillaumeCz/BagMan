@@ -14,20 +14,9 @@ public class MainActivity extends MenuHeader {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button page_listButton = (Button)findViewById(R.id.page_listButton);
         Button carnet_listButton = (Button)findViewById(R.id.carnet_listButton);
-        page_listButton.setOnClickListener(page_list);
         carnet_listButton.setOnClickListener(carnet_list);
     }
-
-    private View.OnClickListener page_list = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Class page_listActivityClass =Page_listActivity.class;
-            Intent page_listIntent = new Intent(MainActivity.this, page_listActivityClass);
-            startActivity(page_listIntent);
-        }
-    };
 
     private View.OnClickListener carnet_list = new View.OnClickListener() {
         @Override
