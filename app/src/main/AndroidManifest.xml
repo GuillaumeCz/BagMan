@@ -18,7 +18,9 @@
         </activity>
         <activity android:name=".Activities.Page_listActivity" />
         <activity android:name=".Activities.Page_itemActivity" />
-        <activity android:name=".Activities.Page_createActivity"></activity>
+        <activity android:name=".Activities.Page_createActivity" />
+        <activity android:name=".Activities.Carnet_listActivity" />
+        <activity android:name=".Activities.Carnet_createActivity"></activity>
     </application>
 
 </manifest>

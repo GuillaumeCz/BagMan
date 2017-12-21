@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import fr.utt.if26.mytravel.Activities.Carnet_createActivity;
+import fr.utt.if26.mytravel.Activities.Carnet_listActivity;
 import fr.utt.if26.mytravel.Activities.MainActivity;
 import fr.utt.if26.mytravel.R;
 
@@ -40,14 +42,16 @@ public abstract class MenuHeader extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.main:
-                Intent targetIntent = new Intent(MenuHeader.this, MainActivity.class);
-                startActivity(targetIntent);
+                Intent mainIntent = new Intent(MenuHeader.this, MainActivity.class);
+                startActivity(mainIntent);
                 return true;
             case R.id.listCarnet:
-                Log.e("====", "liste ");
+                Intent carnet_listIntent = new Intent(MenuHeader.this, Carnet_listActivity.class);
+                startActivity(carnet_listIntent);
                 return true;
             case R.id.newCarnet:
-                Log.e("====", "new");
+                Intent carnet_createIntent = new Intent(MenuHeader.this, Carnet_createActivity.class);
+                startActivity(carnet_createIntent);
                 return true;
             default: return false;
         }

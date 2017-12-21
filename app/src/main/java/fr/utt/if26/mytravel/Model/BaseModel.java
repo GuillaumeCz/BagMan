@@ -4,6 +4,7 @@ package fr.utt.if26.mytravel.Model;
  * Created by paf on 12/11/17.
  */
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,6 +22,18 @@ public abstract class BaseModel {
     public BaseModel(long createdAt_pf, long updatedAt_pf) {
         createdAt = createdAt_pf;
         updatedAt = updatedAt_pf;
+    }
+
+    public String getCreatedAtFormat() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        String date = sdf.format(new Date(this.getCreatedAt()));
+        return date;
+    }
+
+    public String getUpdatedAtFormat() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        String date = sdf.format(new Date(this.getCreatedAt()));
+        return date;
     }
 
     public void setId(int id) {

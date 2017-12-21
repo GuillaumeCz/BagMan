@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fr.utt.if26.mytravel.Activities.MainActivity">
+    tools:context="fr.utt.if26.mytravel.Activities.MainActivity"
+    android:orientation="vertical">
 
 
     <TextView
@@ -17,8 +18,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/page_listButton"
+        android:id="@+id/carnet_listButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="List Pages" />
-</android.support.constraint.ConstraintLayout>
+        android:text="List Carnet" />
+
+</LinearLayout>

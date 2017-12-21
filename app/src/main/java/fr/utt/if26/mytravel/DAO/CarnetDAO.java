@@ -49,6 +49,12 @@ public class CarnetDAO extends DAO {
         return items;
     }
 
+    /**
+     * TODO: Observer/Observable pour mettre à jour liste de page d'un objet carnet ?
+     * @param carnet
+     * @param page
+     * @return
+     */
     public int addPage(Carnet carnet, Page page) {
         ContentValues newValues = new ContentValues();
         String whereClause = Bdd.FeedPage._ID + " = " + page.getId();
@@ -66,7 +72,13 @@ public class CarnetDAO extends DAO {
     }
 
     public ArrayList<Page> getPageList(int carnet_id) {
-        String[] projections = {"_id", "title", "content", "summary", "created_at", "updated_at"};
+        String[] projections = { Bdd.FeedPage._ID,
+                Bdd.FeedPage.TITLE,
+                Bdd.FeedPage.CONTENT,
+                Bdd.FeedPage.SUMMARY,
+                Bdd.FeedPage.CREATED_AT,
+                Bdd.FeedPage.UPDATED_AT,
+                Bdd.FeedPage.CARNET };
         String sortOrder = projections[0] + " DESC";
         String whereClause = Bdd.FeedPage.CARNET + " = " + carnet_id;
 
@@ -166,7 +178,8 @@ public class CarnetDAO extends DAO {
             String itemSummary = c_pf.getString(3);
             long itemCreatedAt = c_pf.getLong(4);
             long itemUpdatedAt = c_pf.getLong(5);
-            Page page = new Page(itemId, itemTitle, itemContent, itemSummary, itemCreatedAt, itemUpdatedAt);
+            int carnet_id = c_pf.getInt(6);
+            Page page = new Page(itemId, itemTitle, itemContent, itemSummary, itemCreatedAt, itemUpdatedAt, carnet_id);
             return page;
         } catch(Exception e) {
             Log.i("Ex", e.getMessage());
