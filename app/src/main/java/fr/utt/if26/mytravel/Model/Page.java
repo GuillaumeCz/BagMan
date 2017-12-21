@@ -40,6 +40,13 @@ public class Page extends BaseModel {
     }
 
     public String toString() {
+        return  "- Titre : " + getTitle() +
+                "\n- Extrait : " + getSummary() +
+                "\n- UpdatedAt : " + getUpdatedAt() +
+                "\n";
+    }
+
+    public String toFullString() {
         return "Page : "+ getId() +
                 "\n- Titre : " + getTitle() +
                 "\n- Contenu : " + getContent() +
