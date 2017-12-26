@@ -1,4 +1,4 @@
-package fr.utt.if26.mytravel.Helpers;
+package fr.utt.if26.mytravel.View;
 
 import android.content.Context;
 import android.util.Log;

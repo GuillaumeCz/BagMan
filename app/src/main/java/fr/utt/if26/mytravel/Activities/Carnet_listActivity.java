@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import fr.utt.if26.mytravel.Config.Bdd;
 import fr.utt.if26.mytravel.DAO.CarnetDAO;
-import fr.utt.if26.mytravel.Helpers.CarnetAdapter;
+import fr.utt.if26.mytravel.View.CarnetAdapter;
 import fr.utt.if26.mytravel.Helpers.MenuHeader;
 import fr.utt.if26.mytravel.Model.Carnet;
 import fr.utt.if26.mytravel.R;
