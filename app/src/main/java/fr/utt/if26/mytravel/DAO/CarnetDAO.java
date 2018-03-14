@@ -2,7 +2,7 @@ package fr.utt.if26.mytravel.DAO;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteDatabase;
 import android.util.Log;
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class CarnetDAO extends DAO {
     public ArrayList getList() {
         String[] projections = {"_id", "name", "created_at", "updated_at"};
         String sortOrder = projections[0] + " DESC";
-        Cursor c = getDb().getReadableDatabase().query(
+        Cursor c = getDb().getReadableDatabase("1234").query(
                 getModelName(),
                 projections, //Nullable pour avoir toutes les colonnes
                 null,
@@ -61,7 +61,7 @@ public class CarnetDAO extends DAO {
         newValues.put(Bdd.FeedPage.CARNET, carnet.getId());
 
         try {
-            getDb().getWritableDatabase().update(Bdd.FeedPage.MODEL_NAME, newValues, whereClause, null);
+            getDb().getWritableDatabase("1234").update(Bdd.FeedPage.MODEL_NAME, newValues, whereClause, null);
             carnet.getPages().add(page);
             return 0;
 
@@ -82,7 +82,7 @@ public class CarnetDAO extends DAO {
         String sortOrder = projections[0] + " DESC";
         String whereClause = Bdd.FeedPage.CARNET + " = " + carnet_id;
 
-        Cursor c = getDb().getReadableDatabase().query(
+        Cursor c = getDb().getReadableDatabase("1234").query(
                 Bdd.FeedPage.MODEL_NAME,
                 projections,
                 whereClause,
@@ -108,7 +108,7 @@ public class CarnetDAO extends DAO {
         v.put(Bdd.FeedCarnet.UPDATED_AT, carnet.getUpdatedAt());
 
         try {
-            int id = (int) getDb().getWritableDatabase().insert(getModelName(), null, v);
+            int id = (int) getDb().getWritableDatabase("1234").insert(getModelName(), null, v);
             return id;
         } catch (Exception e) {
             Log.i("Ex", e.getMessage());
@@ -120,13 +120,13 @@ public class CarnetDAO extends DAO {
     public void deleteRow(int id_cf) {
         String select = "_id LIKE ?";
         String[] args = { id_cf+"" };
-        getDb().getWritableDatabase().delete(getModelName(), select, args);
+        getDb().getWritableDatabase("1234").delete(getModelName(), select, args);
     }
 
     @Override
     public Object getRow(int id) {
         String sql = "SELECT * FROM carnet WHERE _id =? ";
-        SQLiteDatabase db = getDb().getReadableDatabase();
+        SQLiteDatabase db = getDb().getReadableDatabase("1234");
         Cursor c = null;
 
         try {
@@ -148,7 +148,7 @@ public class CarnetDAO extends DAO {
         args.put(Bdd.FeedCarnet.UPDATED_AT, carnet.getUpdatedAt());
 
         try {
-            getDb().getWritableDatabase().update(Bdd.FeedCarnet.MODEL_NAME, args, filter, null);
+            getDb().getWritableDatabase("1234").update(Bdd.FeedCarnet.MODEL_NAME, args, filter, null);
         } catch (Exception e) {
             Log.i("====", e.getMessage());
         }

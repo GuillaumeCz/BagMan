@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
+import java.io.File;
+
 import fr.utt.if26.mytravel.Helpers.MenuHeader;
 import fr.utt.if26.mytravel.R;
 
@@ -16,6 +20,15 @@ public class MainActivity extends MenuHeader {
 
         Button carnet_listButton = (Button)findViewById(R.id.carnet_listButton);
         carnet_listButton.setOnClickListener(carnet_list);
+        initSQLCipher();
+    }
+
+    private void initSQLCipher() {
+        SQLiteDatabase.loadLibs(this);
+        File dbFile = getDatabasePath("bagman.db");
+        dbFile.mkdirs();
+        dbFile.delete();
+        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbFile, "1234", null);
     }
 
     private View.OnClickListener carnet_list = new View.OnClickListener() {

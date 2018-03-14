@@ -69,7 +69,7 @@ public abstract class DAO {
      */
     public boolean emptyTable() {
         try {
-            getDb().getWritableDatabase().delete(getModelName(), null, null);
+            getDb().getWritableDatabase("1234").delete(getModelName(), null, null);
             return true;
         } catch (Exception e) {
             return false;
