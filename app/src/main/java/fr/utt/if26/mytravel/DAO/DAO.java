@@ -1,6 +1,6 @@
 package fr.utt.if26.mytravel.DAO;
 
-import android.database.Cursor;
+import net.sqlcipher.Cursor;
 
 import java.util.ArrayList;
 
@@ -9,15 +9,17 @@ import fr.utt.if26.mytravel.Config.Bdd;
 public abstract class DAO {
     private String modelName;
     private Bdd db;
+    private String password;
 
     /**
      * Constructeur
      * @param db_pf
      * @param modelName_pf
      */
-    public DAO(Bdd db_pf, String modelName_pf) {
+    public DAO(Bdd db_pf, String modelName_pf, String password_pf) {
         modelName = modelName_pf;
         db = db_pf;
+        password = password_pf;
     }
 
     /**
@@ -69,7 +71,7 @@ public abstract class DAO {
      */
     public boolean emptyTable() {
         try {
-            getDb().getWritableDatabase().delete(getModelName(), null, null);
+            getDb().getWritableDatabase("1234").delete(getModelName(), null, null);
             return true;
         } catch (Exception e) {
             return false;
@@ -91,5 +93,9 @@ public abstract class DAO {
 
     public void setDb(Bdd db) {
         this.db = db;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 }

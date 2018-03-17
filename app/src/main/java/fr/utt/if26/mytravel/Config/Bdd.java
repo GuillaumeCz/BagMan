@@ -1,8 +1,8 @@
 package fr.utt.if26.mytravel.Config;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 

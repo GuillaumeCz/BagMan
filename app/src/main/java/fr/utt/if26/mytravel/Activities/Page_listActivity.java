@@ -2,16 +2,13 @@ package fr.utt.if26.mytravel.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import fr.utt.if26.mytravel.DAO.CarnetDAO;
 import fr.utt.if26.mytravel.Helpers.MenuHeader;
 import fr.utt.if26.mytravel.Helpers.PageAdapter;
-import fr.utt.if26.mytravel.Model.Carnet;
 import fr.utt.if26.mytravel.Model.Page;
 import fr.utt.if26.mytravel.Config.Bdd;
 import fr.utt.if26.mytravel.DAO.PageDAO;
@@ -20,19 +17,18 @@ import fr.utt.if26.mytravel.R;
 public class Page_listActivity extends MenuHeader {
     private Bdd database;
     private int carnet_id;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_list);
 
-        database = new Bdd(this);
-        PageDAO pdao = new PageDAO(database);
         Bundle extras = getIntent().getExtras();
         carnet_id = extras.getInt("carnet_id");
-
-        Log.e("===", ((Carnet) new CarnetDAO(database).getRow(carnet_id)).toStringWithPages());
-
+        password = extras.getString("password");
+        database = new Bdd(this);
+        PageDAO pdao = new PageDAO(database, password);
         PageAdapter pa = new PageAdapter(this, R.layout.row_item, pdao.getRowByCarnet(carnet_id));
 
         ListView page_lv = (ListView) findViewById(R.id.list_page);
@@ -49,6 +45,7 @@ public class Page_listActivity extends MenuHeader {
             Intent page_createIntent = new Intent(Page_listActivity.this, Page_createActivity.class);
             Bundle extras = new Bundle();
             extras.putInt("carnet_id", carnet_id);
+            extras.putString("password", password);
             page_createIntent.putExtras(extras);
             startActivity(page_createIntent);
         }
@@ -62,6 +59,7 @@ public class Page_listActivity extends MenuHeader {
             Bundle extras = new Bundle();
 
             extras.putInt("id", page.getId());
+            extras.putString("password", password);
             page_itemIntent.putExtras(extras);
             startActivity(page_itemIntent);
         }

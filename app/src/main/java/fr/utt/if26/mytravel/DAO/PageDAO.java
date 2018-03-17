@@ -1,8 +1,8 @@
 package fr.utt.if26.mytravel.DAO;
 
 import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import net.sqlcipher.Cursor;
+import net.sqlcipher.database.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
@@ -25,8 +25,8 @@ public class PageDAO extends DAO implements BaseColumns{
      * Constructeur
      * @param bd_pf la base de donnée à laquelle il faut se connecter
      */
-    public PageDAO(Bdd bd_pf) {
-        super(bd_pf, "page");
+    public PageDAO(Bdd bd_pf, String _password) {
+        super(bd_pf, "page", _password);
     }
 
     public int insertRow(Object ob) {
@@ -40,7 +40,7 @@ public class PageDAO extends DAO implements BaseColumns{
         v.put(Bdd.FeedPage.CARNET, page.getCarnet_id());
 
         try {
-            int id = (int) getDb().getWritableDatabase().insert(getModelName(), null, v);
+            int id = (int) getDb().getWritableDatabase(getPassword()).insert(getModelName(), null, v);
             return id;
         } catch (Exception e) {
             Log.i("Ex", e.getMessage());
@@ -51,7 +51,7 @@ public class PageDAO extends DAO implements BaseColumns{
     public void deleteRow(int id_pf) {
         String select = "_id LIKE ?";
         String[] args = { id_pf+"" };
-        getDb().getWritableDatabase().delete(getModelName(), select, args);
+        getDb().getWritableDatabase(getPassword()).delete(getModelName(), select, args);
     }
 
     /**
@@ -61,7 +61,7 @@ public class PageDAO extends DAO implements BaseColumns{
      */
     public Page getRow(int id) {
         String sql = "SELECT * FROM page WHERE _id =? ";
-        SQLiteDatabase db = getDb().getReadableDatabase();
+        SQLiteDatabase db = getDb().getReadableDatabase(getPassword());
         Cursor c = null;
 
         try {
@@ -86,7 +86,7 @@ public class PageDAO extends DAO implements BaseColumns{
         String whereClause = Bdd.FeedPage.CARNET + " = ?";
         String[] whereArg = { id_carnet+"" };
 
-        Cursor c = getDb().getReadableDatabase().query(
+        Cursor c = getDb().getReadableDatabase(getPassword()).query(
                 getModelName(),
                 projections,
                 whereClause,
@@ -112,7 +112,7 @@ public class PageDAO extends DAO implements BaseColumns{
                 Bdd.FeedPage.UPDATED_AT,
                 Bdd.FeedPage.CARNET };
         String sortOrder = projections[0] + " DESC";
-        Cursor c = getDb().getReadableDatabase().query(
+        Cursor c = getDb().getReadableDatabase(getPassword()).query(
                 getModelName(),
                 projections, //Nullable pour avoir toutes les colonnes
                 null,
@@ -157,7 +157,7 @@ public class PageDAO extends DAO implements BaseColumns{
         args.put(Bdd.FeedPage.CARNET, page.getCarnet_id());
 
         try {
-            getDb().getWritableDatabase().update(Bdd.FeedPage.MODEL_NAME, args, filter, null);
+            getDb().getWritableDatabase(getPassword()).update(Bdd.FeedPage.MODEL_NAME, args, filter, null);
         } catch (Exception e) {
             Log.i("====", e.getMessage());
         }
