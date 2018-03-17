@@ -16,13 +16,17 @@ public class Carnet_createActivity extends MenuHeader {
     private Bdd database;
     private CarnetDAO cdao;
     private EditText layout_name;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carnet_create);
+        Bundle extras = getIntent().getExtras();
+        password = extras.getString("password");
+
         database = new Bdd(this);
-        cdao = new CarnetDAO(database);
+        cdao = new CarnetDAO(database, password);
 
         layout_name = (EditText) findViewById(R.id.carnet_name);
         Button layout_saveButton = (Button) findViewById(R.id.carnet_saveButton);
@@ -38,6 +42,9 @@ public class Carnet_createActivity extends MenuHeader {
 
             cdao.insertRow(carnet);
             Intent carnet_listIntent = new Intent(Carnet_createActivity.this, Carnet_listActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("password", password);
+            carnet_listIntent.putExtras(extras);
             startActivity(carnet_listIntent);
         }
     };

@@ -2,16 +2,13 @@ package fr.utt.if26.mytravel.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import fr.utt.if26.mytravel.Config.Bdd;
-import fr.utt.if26.mytravel.DAO.CarnetDAO;
 import fr.utt.if26.mytravel.DAO.PageDAO;
 import fr.utt.if26.mytravel.Helpers.MenuHeader;
-import fr.utt.if26.mytravel.Model.Carnet;
 import fr.utt.if26.mytravel.Model.Page;
 import fr.utt.if26.mytravel.R;
 
@@ -22,16 +19,18 @@ public class Page_createActivity extends MenuHeader {
     private EditText layout_summary;
     private EditText layout_content;
     private int carnet_id;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_create);
-        database = new Bdd(this);
-        pdao = new PageDAO(database);
-
         Bundle extras = getIntent().getExtras();
+        password = extras.getString("password");
         carnet_id = extras.getInt("carnet_id");
+
+        database = new Bdd(this);
+        pdao = new PageDAO(database, password);
 
         layout_title = (EditText) findViewById(R.id.page_title);
         layout_summary = (EditText) findViewById(R.id.page_summary);
@@ -53,6 +52,7 @@ public class Page_createActivity extends MenuHeader {
             Intent page_listIntent = new Intent(Page_createActivity.this, Page_listActivity.class);
             Bundle extras = new Bundle();
             extras.putInt("carnet_id", carnet_id);
+            extras.putString("password", password);
             page_listIntent.putExtras(extras);
             startActivity(page_listIntent);
         }

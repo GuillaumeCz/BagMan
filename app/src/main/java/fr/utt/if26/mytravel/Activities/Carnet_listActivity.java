@@ -16,14 +16,17 @@ import fr.utt.if26.mytravel.R;
 
 public class Carnet_listActivity extends MenuHeader {
     private Bdd database;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carnet_list);
 
+        Bundle extras = getIntent().getExtras();
+        password = extras.getString("password");
         database = new Bdd(this);
-        CarnetDAO cdao = new CarnetDAO(database);
+        CarnetDAO cdao = new CarnetDAO(database, password);
 
         CarnetAdapter ca = new CarnetAdapter(this, R.layout.row_item, cdao.getList());
 
@@ -39,6 +42,9 @@ public class Carnet_listActivity extends MenuHeader {
         @Override
         public void onClick(View view) {
             Intent carnet_createIntent = new Intent(Carnet_listActivity.this, Carnet_createActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("password", password);
+            carnet_createIntent.putExtras(extras);
             startActivity(carnet_createIntent);
         }
     };
@@ -50,6 +56,7 @@ public class Carnet_listActivity extends MenuHeader {
             Intent page_listIntent = new Intent(Carnet_listActivity.this, Page_listActivity.class);
             Bundle extras = new Bundle();
             extras.putInt("carnet_id", carnet.getId());
+            extras.putString("password", password);
             page_listIntent.putExtras(extras);
             startActivity(page_listIntent);
         }

@@ -23,16 +23,19 @@ public class Page_itemActivity extends MenuHeader {
     private EditText layout_summary;
     private EditText layout_content;
     private Page page;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_item);
         database = new Bdd(this);
-        pdao = new PageDAO(database);
+
 
         Bundle extras = getIntent().getExtras();
         id = extras.getInt("id");
+        password = extras.getString("password");
+        pdao = new PageDAO(database, password);
         page = pdao.getRow(id);
 
         layout_title = (EditText) findViewById(R.id.page_itemTitle);
@@ -59,6 +62,9 @@ public class Page_itemActivity extends MenuHeader {
 
             pdao.updateRow(id, new_page);
             Intent page_listeIntent = new Intent(Page_itemActivity.this, Page_listActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("password", password);
+            page_listeIntent.putExtras(extras);
             startActivity(page_listeIntent);
         }
     }
